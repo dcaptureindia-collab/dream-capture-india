@@ -1,0 +1,245 @@
+type http_request_result = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type http_header = 
+ record {
+   name: text;
+   value: text;
+ };
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserApprovalInfo = 
+ record {
+   "principal": principal;
+   status: ApprovalStatus;
+ };
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: http_request_result;
+ };
+type Timestamp = int;
+type StripeSessionStatus = 
+ variant {
+   completed: record {
+                response: text;
+                userPrincipal: opt text;
+              };
+   failed: record {error: text;};
+ };
+type StripeConfiguration = 
+ record {
+   allowedCountries: vec text;
+   secretKey: text;
+ };
+type RegistrationStatus = 
+ variant {
+   Approved;
+   Pending;
+   Rejected;
+   Suspended;
+ };
+type ProjectStatus = 
+ variant {
+   Active;
+   Closed;
+   Draft;
+ };
+type ProjectRecord = 
+ record {
+   assignedCandidates: vec principal;
+   budget: text;
+   category: ProjectCategory;
+   createdAt: Timestamp;
+   deadline: Timestamp;
+   description: text;
+   id: ProjectId;
+   requirements: text;
+   status: ProjectStatus;
+   title: text;
+   updatedAt: Timestamp;
+ };
+type ProjectInput = 
+ record {
+   budget: text;
+   category: ProjectCategory;
+   deadline: Timestamp;
+   description: text;
+   requirements: text;
+   status: ProjectStatus;
+   title: text;
+ };
+type ProjectId = nat;
+type ProjectCategory = 
+ variant {
+   BrandPromotion;
+   Bridal;
+   Catalogue;
+   ECommerce;
+   Fashion;
+   International;
+   Jewellery;
+   MusicVideo;
+   WebSeries;
+ };
+type PaymentStatus = 
+ variant {
+   NotPaid;
+   Paid;
+   Verified;
+ };
+type PaymentRecordStatus = 
+ variant {
+   Completed;
+   Failed;
+   Pending;
+ };
+type PaymentRecord = 
+ record {
+   amount: nat;
+   createdAt: Timestamp;
+   id: PaymentId;
+   principalId: principal;
+   status: PaymentRecordStatus;
+   stripePaymentId: text;
+ };
+type PaymentId = nat;
+type NotificationType = 
+ variant {
+   Announcement;
+   Offer;
+   ProjectMatch;
+   RegistrationUpdate;
+   Reminder;
+ };
+type NotificationRecord = 
+ record {
+   createdAt: Timestamp;
+   id: NotificationId;
+   isRead: bool;
+   message: text;
+   notificationType: NotificationType;
+   recipientPrincipal: principal;
+   senderPrincipal: principal;
+ };
+type NotificationId = nat;
+type ExternalBlob = blob;
+type CandidateProfileInput = 
+ record {
+   age: nat;
+   city: text;
+   email: text;
+   height: text;
+   measurements: text;
+   name: text;
+   phone: text;
+ };
+type CandidateProfile = 
+ record {
+   age: nat;
+   city: text;
+   createdAt: Timestamp;
+   email: text;
+   height: text;
+   id: CandidateId;
+   measurements: text;
+   name: text;
+   paymentStatus: PaymentStatus;
+   phone: text;
+   portfolioImages: vec ExternalBlob;
+   principalId: principal;
+   registrationStatus: RegistrationStatus;
+   updatedAt: Timestamp;
+ };
+type CandidateId = principal;
+type ApprovalStatus = 
+ variant {
+   approved;
+   pending;
+   rejected;
+ };
+type AppConfig = 
+ record {
+   email: text;
+   instagramHandle: text;
+   paymentAmount: nat;
+   stripePublicKey: text;
+   whatsappNumber: text;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initializeAccessControl: () -> ();
+  addProject: (input: ProjectInput) -> (ProjectRecord);
+  approveCandidate: (candidateId: principal) -> ();
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  assignCandidateToProject: (projectId: ProjectId, candidatePrincipal:
+   principal) -> ();
+  broadcastNotification: (recipients: vec principal, message: text,
+   notificationType: NotificationType) -> ();
+  createCheckoutSession: (successUrl: text, cancelUrl: text) -> (text);
+  getCallerUserRole: () -> (UserRole) query;
+  getCandidateDetail: (candidateId: principal) ->
+   (opt CandidateProfile) query;
+  getConfig: () -> (AppConfig) query;
+  getMyNotifications: () -> (vec NotificationRecord) query;
+  getMyPaymentStatus: () -> (opt PaymentRecord) query;
+  getMyProfile: () -> (opt CandidateProfile) query;
+  getMyProjects: () -> (vec ProjectRecord) query;
+  getStripeSessionStatus: (sessionId: text) -> (StripeSessionStatus);
+  isCallerAdmin: () -> (bool) query;
+  isCallerApproved: () -> (bool) query;
+  isStripeConfigured: () -> (bool) query;
+  listAllCandidates: () -> (vec CandidateProfile) query;
+  listApprovals: () -> (vec UserApprovalInfo) query;
+  listPayments: () -> (vec PaymentRecord) query;
+  listProjects: () -> (vec ProjectRecord) query;
+  markNotificationRead: (notificationId: NotificationId) -> ();
+  recordPayment: (stripeSessionId: text) -> (PaymentRecord);
+  registerCandidate: (input: CandidateProfileInput) -> (CandidateProfile);
+  rejectCandidate: (candidateId: principal) -> ();
+  requestApproval: () -> ();
+  sendNotification: (recipient: principal, message: text, notificationType:
+   NotificationType) -> (NotificationRecord);
+  setApproval: (user: principal, status: ApprovalStatus) -> ();
+  setStripeConfiguration: (config: StripeConfiguration) -> ();
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  updateConfig: (newConfig: AppConfig) -> ();
+  updateMyProfile: (input: CandidateProfileInput) -> (CandidateProfile);
+  updateProject: (projectId: ProjectId, input: ProjectInput) ->
+   (ProjectRecord);
+  uploadPortfolioImages: (images: vec ExternalBlob) -> ();
+}

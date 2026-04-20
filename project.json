@@ -1,0 +1,25 @@
+{
+  "overview": "Dream Capture India is a premium luxury modelling and casting agency platform with a black, gold, and dark brown theme. It provides a complete end-to-end system for talent onboarding, payment processing, portfolio management, project assignment, and admin control.",
+  "features": [
+    "Luxury homepage with animated hero, project categories, gallery, benefits, and contact section",
+    "Stripe payment onboarding (₹1499 fixed fee) with auto-confirmation",
+    "Candidate portal with Internet Identity login, portfolio uploads, dashboard, notifications",
+    "Admin control panel for candidate approval, project management, shortlisting, and bulk notifications",
+    "Centralized config system for payment keys, contact details, and branding",
+    "In-app notification system with unread badge counts",
+    "Role-based access control for admin and candidate roles",
+    "Responsive luxury design across mobile, tablet, and desktop"
+  ],
+  "category": "productivity",
+  "tags": [
+    "casting",
+    "modelling",
+    "agency",
+    "luxury",
+    "payments",
+    "admin-panel",
+    "portfolio",
+    "india"
+  ],
+  "last_updated": "2026-04-20T02:17:38.485Z"
+}

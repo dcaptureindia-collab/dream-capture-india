@@ -1,0 +1,276 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: "Fraunces", serif;
+    --font-body: "GeneralSans", sans-serif;
+    --font-mono: "JetBrainsMono", monospace;
+    --radius: 0.25rem;
+
+    --background: 0.98 0 0;
+    --foreground: 0.1 0 0;
+    --card: 0.96 0 0;
+    --card-foreground: 0.1 0 0;
+    --popover: 0.97 0 0;
+    --popover-foreground: 0.1 0 0;
+
+    --primary: 0.76 0.155 78;
+    --primary-foreground: 0.1 0 0;
+
+    --secondary: 0.15 0.025 30;
+    --secondary-foreground: 0.95 0 0;
+    --muted: 0.92 0 0;
+    --muted-foreground: 0.45 0 0;
+
+    --accent: 0.76 0.155 78;
+    --accent-foreground: 0.1 0 0;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.98 0 0;
+
+    --border: 0.88 0 0;
+    --input: 0.94 0 0;
+    --ring: 0.76 0.155 78;
+
+    --chart-1: 0.76 0.155 78;
+    --chart-2: 0.55 0.18 25;
+    --chart-3: 0.68 0.14 250;
+    --chart-4: 0.62 0.16 10;
+    --chart-5: 0.7 0.12 180;
+
+    --sidebar: 0.97 0 0;
+    --sidebar-foreground: 0.1 0 0;
+    --sidebar-primary: 0.76 0.155 78;
+    --sidebar-primary-foreground: 0.1 0 0;
+    --sidebar-accent: 0.15 0.025 30;
+    --sidebar-accent-foreground: 0.95 0 0;
+    --sidebar-border: 0.88 0 0;
+    --sidebar-ring: 0.76 0.155 78;
+  }
+
+  .dark {
+    --background: 0.06 0 0;
+    --foreground: 0.95 0 0;
+    --card: 0.1 0 0;
+    --card-foreground: 0.95 0 0;
+    --popover: 0.12 0 0;
+    --popover-foreground: 0.95 0 0;
+
+    --primary: 0.76 0.155 78;
+    --primary-foreground: 0.06 0 0;
+
+    --secondary: 0.2 0.03 30;
+    --secondary-foreground: 0.92 0 0;
+    --muted: 0.14 0 0;
+    --muted-foreground: 0.6 0 0;
+
+    --accent: 0.76 0.155 78;
+    --accent-foreground: 0.06 0 0;
+
+    --destructive: 0.65 0.19 22;
+    --destructive-foreground: 0.96 0 0;
+
+    --border: 0.16 0 0;
+    --input: 0.14 0 0;
+    --ring: 0.76 0.155 78;
+
+    --chart-1: 0.76 0.155 78;
+    --chart-2: 0.62 0.2 25;
+    --chart-3: 0.72 0.16 250;
+    --chart-4: 0.65 0.18 10;
+    --chart-5: 0.75 0.14 180;
+
+    --sidebar: 0.1 0 0;
+    --sidebar-foreground: 0.95 0 0;
+    --sidebar-primary: 0.76 0.155 78;
+    --sidebar-primary-foreground: 0.06 0 0;
+    --sidebar-accent: 0.2 0.03 30;
+    --sidebar-accent-foreground: 0.92 0 0;
+    --sidebar-border: 0.16 0 0;
+    --sidebar-ring: 0.76 0.155 78;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gold-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes particle-float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+    opacity: 0.7;
+  }
+}
+
+@keyframes shimmer-border {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .transition-gold {
+    @apply transition-smooth;
+  }
+
+  .text-gold {
+    @apply text-primary;
+  }
+
+  .bg-premium-dark {
+    @apply bg-secondary;
+  }
+
+  .shadow-luxury {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 60px
+      rgba(180, 140, 20, 0.05);
+  }
+
+  .shadow-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .shadow-gold {
+    box-shadow: 0 0 30px rgba(180, 140, 20, 0.2), 0 8px 32px rgba(0, 0, 0, 0.6);
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.7s ease-out forwards;
+  }
+
+  .animate-gold-shimmer {
+    background: linear-gradient(
+      90deg,
+      oklch(0.76 0.155 78 / 0) 0%,
+      oklch(0.76 0.155 78 / 0.6) 50%,
+      oklch(0.76 0.155 78 / 0) 100%
+    );
+    background-size: 200% auto;
+    animation: gold-shimmer 3s linear infinite;
+  }
+
+  .animate-particle {
+    animation: particle-float 4s ease-in-out infinite;
+  }
+
+  .gold-shimmer-text {
+    background: linear-gradient(
+      90deg,
+      oklch(0.76 0.155 78) 0%,
+      oklch(0.88 0.13 78) 40%,
+      oklch(0.76 0.155 78) 60%,
+      oklch(0.65 0.18 78) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gold-shimmer 4s linear infinite;
+  }
+
+  .border-shimmer {
+    animation: shimmer-border 2s ease-in-out infinite;
+  }
+
+  .delay-100 {
+    animation-delay: 0.1s;
+  }
+  .delay-200 {
+    animation-delay: 0.2s;
+  }
+  .delay-300 {
+    animation-delay: 0.3s;
+  }
+  .delay-400 {
+    animation-delay: 0.4s;
+  }
+  .delay-500 {
+    animation-delay: 0.5s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-gold-shimmer,
+  .animate-particle,
+  .gold-shimmer-text,
+  .border-shimmer {
+    animation: none;
+    animation-duration: 0s;
+  }
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/assets/fonts/Fraunces.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GeneralSans";
+  src: url("/assets/fonts/GeneralSans.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrainsMono";
+  src: url("/assets/fonts/JetBrainsMono.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}

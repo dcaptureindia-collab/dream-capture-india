@@ -1,0 +1,141 @@
+// Version: 1.0.0
+type AppConfig__1051343473 =
+  {
+    email : Text;
+    instagramHandle : Text;
+    paymentAmount : Nat;
+    stripePublicKey : Text;
+    whatsappNumber : Text
+  };
+type ApprovalStatus__575141016 = {#approved; #pending; #rejected};
+type CandidateId__359602160 = Principal;
+type CandidateProfile__334358483 =
+  {
+    age : Nat;
+    city : Text;
+    createdAt : Timestamp__301639476;
+    email : Text;
+    height : Text;
+    id : CandidateId__359602160;
+    measurements : Text;
+    name : Text;
+    paymentStatus : PaymentStatus__299011351;
+    phone : Text;
+    portfolioImages : [ExternalBlob__246066408];
+    principalId : Principal;
+    registrationStatus : RegistrationStatus__512133548;
+    updatedAt : Timestamp__301639476
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type ExternalBlob__246066408 = Blob;
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type NotificationId__307495059 = Nat;
+type NotificationRecord__841525809 =
+  {
+    createdAt : Timestamp__301639476;
+    id : NotificationId__307495059;
+    isRead : Bool;
+    message : Text;
+    notificationType : NotificationType__185411214;
+    recipientPrincipal : Principal;
+    senderPrincipal : Principal
+  };
+type NotificationType__185411214 =
+  {#Announcement; #Offer; #ProjectMatch; #RegistrationUpdate; #Reminder};
+type PaymentId__1028686908 = Nat;
+type PaymentRecordStatus__342189286 = {#Completed; #Failed; #Pending};
+type PaymentRecord__536214743 =
+  {
+    amount : Nat;
+    createdAt : Timestamp__301639476;
+    id : PaymentId__1028686908;
+    principalId : Principal;
+    status : PaymentRecordStatus__342189286;
+    stripePaymentId : Text
+  };
+type PaymentStatus__299011351 = {#NotPaid; #Paid; #Verified};
+type ProjectCategory__489414120 =
+  {
+    #BrandPromotion;
+    #Bridal;
+    #Catalogue;
+    #ECommerce;
+    #Fashion;
+    #International;
+    #Jewellery;
+    #MusicVideo;
+    #WebSeries
+  };
+type ProjectId__478417951 = Nat;
+type ProjectRecord__599580127 =
+  {
+    assignedCandidates : [Principal];
+    budget : Text;
+    category : ProjectCategory__489414120;
+    createdAt : Timestamp__301639476;
+    deadline : Timestamp__301639476;
+    description : Text;
+    id : ProjectId__478417951;
+    requirements : Text;
+    status : ProjectStatus__916318104;
+    title : Text;
+    updatedAt : Timestamp__301639476
+  };
+type ProjectStatus__916318104 = {#Active; #Closed; #Draft};
+type RegistrationStatus__512133548 =
+  {#Approved; #Pending; #Rejected; #Suspended};
+type StripeConfiguration__96897619 =
+  {allowedCountries : [Text]; secretKey : Text};
+type Timestamp__301639476 = Int;
+type UserRole__1054455867 = {#admin; #guest; #user};
+actor {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1054455867>
+    };
+  stable appConfigRef : {var val : AppConfig__1051343473};
+  stable approvalState :
+    {
+      var approvalStatus :
+        Map__605269027<Principal, ApprovalStatus__575141016>
+    };
+  stable nextNotificationId : {var val : NotificationId__307495059};
+  stable nextPaymentId : {var val : PaymentId__1028686908};
+  stable nextProjectId : {var val : ProjectId__478417951};
+  stable notifications :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?NotificationRecord__841525809]];
+      var elementIndex : Nat__490723111
+    };
+  stable payments :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?PaymentRecord__536214743]];
+      var elementIndex : Nat__490723111
+    };
+  stable profiles :
+    {
+      var root : Node__46230540<Principal, CandidateProfile__334358483>;
+      var size : Nat__490723111
+    };
+  stable projects :
+    {
+      var root :
+        Node__46230540<ProjectId__478417951, ProjectRecord__599580127>;
+      var size : Nat__490723111
+    };
+  stable stripeConfigRef : {var val : ?StripeConfiguration__96897619}
+};
